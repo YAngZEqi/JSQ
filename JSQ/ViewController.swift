@@ -15,59 +15,60 @@ class ViewController: UIViewController {
     var operand1:String = ""
     var operand2:String = ""
     var operand:String = ""
-    
-    
-    
-    
+    var Flag:Bool=false;
+
     @IBAction func Equal(sender: UIButton) {
         let value = sender.currentTitle!
-        if value == "C" {
+        if value == "AC" {
             resultLable.text = "0"
             return
         }else if value == "+"||value == "-"||value == "*"||value == "/" {
             operand = value
+            operand1 = resultLable.text!;
             resultLable.text = ""
+            Flag=false;
             return
         }else if value == "=" {
-            var result = 0.0
             
             switch operand {
                 case "+":
-                    result = Double(operand1)! + Double(operand2)!
-                resultLable.text = "\(result)"
+                    resultLable.text = String(Double(operand1)!+Double(resultLable.text!)!);break;
                 case "-":
-                    result = Double(operand1)! - Double(operand2)!
-                    resultLable.text = "\(result)"
+                    resultLable.text = String(Double(operand1)!-Double(resultLable.text!)!);break;
                 case "*":
-                    result = Double(operand1)! * Double(operand2)!
-                    resultLable.text = "\(result)"
+                    resultLable.text = String(Double(operand1)!*Double(resultLable.text!)!);break;
                 case "/":
-                    result = Double(operand1)! / Double(operand2)!
-                    resultLable.text = "\(result)"
+                    if(operand2 != "0")
+                    {resultLable.text = String(Double(operand1)!/Double(resultLable.text!)!);break;
+                    }
+                    else
+                    {
+                        resultLable.text="除数不能为零！";
+                    }
                 
             default:
-                result = 0
+                resultLable.text = "0"
             }
-            resultLable.text = "\(result)"
-            operand = ""
-            operand1 = ""
-            operand2 = ""
+        }
+        else if(value == ".")
+        {
+            if(!Flag)
+            {
+                resultLable.text!+=".";
+                Flag=true;
+            }
+        }
+        else if(resultLable.text == "0"){
+            resultLable.text!="";
+            resultLable.text! += value;
             return
         }
-        
-        if operand == "" {
-            operand1 = operand1 + value
-            resultLable.text = "\(operand1)"
-            return
+        else
+        {
+            resultLable.text! += value;
         }
-        else {
-            operand2 = operand2 + value
-            resultLable.text = "\(operand2)"
-            return
-        }
+    
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
